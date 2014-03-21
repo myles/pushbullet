@@ -37,7 +37,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 __version__ = '0.1'
 __project_name__ = 'PushbulletPythonLibrary'
-__project_link__ = 'https://gist.github.com/myles/9688926'
+__project_link__ = 'https://github.com/myles/pushbullet'
 
 import json
 import argparse
