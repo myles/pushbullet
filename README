@@ -1,1 +1,31 @@
 Pushbullet Python Library
+=========================
+
+A Python library (and super simple command line app) for Pushbullet_.
+
+.. _Pushbullet: https://pushbullet.com/
+
+Library Usage
+-------------
+
+.. code-block:: python
+
+    >>> from pushbullet import Pushbullet
+    >>> pb = Pushbullet(api_key='replace-with-your-api-key')
+    >>>
+
+List devices:
+
+.. code-block:: python
+    
+    >>> pb.list_devices()
+    {u'shared_devices': [], u'devices': []}
+    >>>
+
+Send a note:
+
+.. code-block:: python
+    
+    >>> pb.bullet_note(device_idn, title="Hello, World!", body="This is an example note.")
+    {}
+    >>>

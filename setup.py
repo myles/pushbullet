@@ -17,7 +17,7 @@ setup(
 	keywords = 'pushbullet',
 	url = __project_link__,
 	packages = [ 'pushbullet' ],
-	log_description = read('README'),
+	long_description = read('README'),
 	classifiers = [
 		"Development Status :: 3 - Alpha",
 		"Topic :: Utilities",
