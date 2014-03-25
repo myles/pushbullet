@@ -25,5 +25,10 @@ setup(
 	],
 	install_requires = [
 		'requests',
-	]
+	],
+	entry_points = {
+		'console_scripts': [
+			'pushbullet = pushbullet.cli',
+		]
+	}
 )
