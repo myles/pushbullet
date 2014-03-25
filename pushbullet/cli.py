@@ -39,7 +39,33 @@ from clint.textui import puts, indent
 
 from pushbullet import Pushbullet
 
-def main(args):
+def main():
+	
+	parser = argparse.ArgumentParser()
+	
+	parser.add_argument('-a', '--apikey', required=True, action='store',
+		dest='api_key', help="What is your Pushbullet API key?")
+	
+	parser.add_argument('-d', '--device', action='store', dest='device',
+		help="What device do you want to send the bullet to?")
+	
+	parser.add_argument('-t', '--type', action='store', dest='type', default="note",
+		choices=['note', 'link', 'address', 'list', 'file'],
+		help="What type of bullet do you want to send?")
+	
+	parser.add_argument('-n', '--name', '--title', action='store', dest='title',
+		help="The title/name of the note, link, address, or list.")
+	parser.add_argument('-b', '--body', '--address', action='store', dest='body',
+		help="The body/address of the note or address.")
+	parser.add_argument('-i', '--items', action='store', dest='items',
+		help="The items in a list.")
+	parser.add_argument('-f', '--file', action='store', dest='file',
+		type=argparse.FileType('rb'), help="The file to push.")
+	
+	parser.add_argument('-l', '--list-devices', action='store_true',
+		dest='list_devices', help="Get a list of devices.")
+	
+	args = parser.parse_args()
 	
 	pushbullet = Pushbullet(api_key=args.api_key)
 	
@@ -100,33 +126,3 @@ def main(args):
 			
 		elif args.type == 'file':
 			response = pushbullet.bullet_file(args.device, args.file)
-
-if __name__ == '__main__':
-	
-	parser = argparse.ArgumentParser()
-	
-	parser.add_argument('-a', '--apikey', required=True, action='store',
-		dest='api_key', help="What is your Pushbullet API key?")
-	
-	parser.add_argument('-d', '--device', action='store', dest='device',
-		help="What device do you want to send the bullet to?")
-	
-	parser.add_argument('-t', '--type', action='store', dest='type', default="note",
-		choices=['note', 'link', 'address', 'list', 'file'],
-		help="What type of bullet do you want to send?")
-	
-	parser.add_argument('-n', '--name', '--title', action='store', dest='title',
-		help="The title/name of the note, link, address, or list.")
-	parser.add_argument('-b', '--body', '--address', action='store', dest='body',
-		help="The body/address of the note or address.")
-	parser.add_argument('-i', '--items', action='store', dest='items',
-		help="The items in a list.")
-	parser.add_argument('-f', '--file', action='store', dest='file',
-		type=argparse.FileType('rb'), help="The file to push.")
-	
-	parser.add_argument('-l', '--list-devices', action='store_true',
-		dest='list_devices', help="Get a list of devices.")
-	
-	args = parser.parse_args()
-	
-	main(args)

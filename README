@@ -10,7 +10,7 @@ Library Usage
 
 .. code-block:: python
 
-    >>> from pushbullet import Pushbullet
+    >>> from pushbullet.pushbullet import Pushbullet
     >>> pb = Pushbullet(api_key='replace-with-your-api-key')
     >>>
 
@@ -36,3 +36,24 @@ Command Line Usage
 .. code-block:: shell-session
     
     $ pushbullet --help
+    pushbullet -h
+    usage: pushbullet [-h] -a API_KEY [-d DEVICE]
+                      [-t {note,link,address,list,file}] [-n TITLE] [-b BODY]
+                      [-i ITEMS] [-f FILE] [-l]
+    
+    optional arguments:
+      -h, --help            show this help message and exit
+      -a API_KEY, --apikey API_KEY
+                            What is your Pushbullet API key?
+      -d DEVICE, --device DEVICE
+                            What device do you want to send the bullet to?
+      -t {note,link,address,list,file}, --type {note,link,address,list,file}
+                            What type of bullet do you want to send?
+      -n TITLE, --name TITLE, --title TITLE
+                            The title/name of the note, link, address, or list.
+      -b BODY, --body BODY, --address BODY
+                            The body/address of the note or address.
+      -i ITEMS, --items ITEMS
+                            The items in a list.
+      -f FILE, --file FILE  The file to push.
+      -l, --list-devices    Get a list of devices.

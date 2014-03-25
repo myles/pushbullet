@@ -26,9 +26,12 @@ setup(
 	install_requires = [
 		'requests',
 	],
+	extras_require = {
+		'cli': [ 'clint' ]
+	},
 	entry_points = {
 		'console_scripts': [
-			'pushbullet = pushbullet.cli',
+			'pushbullet = pushbullet.cli:main [cli]',
 		]
 	}
 )

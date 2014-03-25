@@ -35,12 +35,3 @@ POSSIBILITY OF SUCH DAMAGE.
 __version__ = '0.2'
 __project_name__ = 'PushbulletPythonLibrary'
 __project_link__ = 'https://github.com/myles/pushbullet'
-
-from .pushbullet import Pushbullet
-
-__all__ = [
-	"Pushbullet",
-	"__version__",
-	"__project_name__",
-	"__project_link__"
-]
