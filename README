@@ -29,3 +29,10 @@ Send a note:
     >>> pb.bullet_note(device_idn, title="Hello, World!", body="This is an example note.")
     {}
     >>>
+
+Command Line Usage
+------------------
+
+.. code-block:: shell-session
+    
+    $ pushbullet --help
