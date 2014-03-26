@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Pushbullet by myles</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Pushbullet</h1>
+        <p>A Python Library for Pushbullet.</p>
+
+        <p class="view"><a href="https://github.com/myles/pushbullet">View the Project on GitHub <small>myles/pushbullet</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/myles/pushbullet/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/myles/pushbullet/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/myles/pushbullet">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="pushbullet-python-library" class="anchor" href="#pushbullet-python-library"><span class="octicon octicon-link"></span></a>Pushbullet Python Library</h1>
+
+<p>A Python library (and super simple command line app) for <a href="https://pushbullet.com/">Pushbullet</a>.</p>
+
+<h2>
+<a name="library-usage" class="anchor" href="#library-usage"><span class="octicon octicon-link"></span></a>Library Usage</h2>
+
+<div class="highlight highlight-python"><pre>    <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">pushbullet.pushbullet</span> <span class="kn">import</span> <span class="n">Pushbullet</span>
+    <span class="o">&gt;&gt;&gt;</span> <span class="n">pb</span> <span class="o">=</span> <span class="n">Pushbullet</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="s">'replace-with-your-api-key'</span><span class="p">)</span>
+    <span class="o">&gt;&gt;&gt;</span>
+</pre></div>
+
+<h3>
+<a name="list-devices" class="anchor" href="#list-devices"><span class="octicon octicon-link"></span></a>List devices</h3>
+
+<div class="highlight highlight-python"><pre>    <span class="o">&gt;&gt;&gt;</span> <span class="n">pb</span><span class="o">.</span><span class="n">list_devices</span><span class="p">()</span>
+    <span class="p">{</span><span class="s">u'shared_devices'</span><span class="p">:</span> <span class="p">[],</span> <span class="s">u'devices'</span><span class="p">:</span> <span class="p">[]}</span>
+    <span class="o">&gt;&gt;&gt;</span>
+</pre></div>
+
+<h3>
+<a name="send-a-note" class="anchor" href="#send-a-note"><span class="octicon octicon-link"></span></a>Send a note</h3>
+
+<div class="highlight highlight-python"><pre>    <span class="o">&gt;&gt;&gt;</span> <span class="n">pb</span><span class="o">.</span><span class="n">bullet_note</span><span class="p">(</span><span class="n">device_idn</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">"Hello, World!"</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="s">"This is an example note."</span><span class="p">)</span>
+    <span class="p">{}</span>
+    <span class="o">&gt;&gt;&gt;</span>
+</pre></div>
+
+<h2>
+<a name="command-line-usage" class="anchor" href="#command-line-usage"><span class="octicon octicon-link"></span></a>Command Line Usage</h2>
+
+<pre lang="shell"><code>    $ pushbullet --help
+    pushbullet -h
+    usage: pushbullet [-h] -a API_KEY [-d DEVICE]
+                      [-t {note,link,address,list,file}] [-n TITLE] [-b BODY]
+                      [-i ITEMS] [-f FILE] [-l]
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -a API_KEY, --apikey API_KEY
+                            What is your Pushbullet API key?
+      -d DEVICE, --device DEVICE
+                            What device do you want to send the bullet to?
+      -t {note,link,address,list,file}, --type {note,link,address,list,file}
+                            What type of bullet do you want to send?
+      -n TITLE, --name TITLE, --title TITLE
+                            The title/name of the note, link, address, or list.
+      -b BODY, --body BODY, --address BODY
+                            The body/address of the note or address.
+      -i ITEMS, --items ITEMS
+                            The items in a list.
+      -f FILE, --file FILE  The file to push.
+      -l, --list-devices    Get a list of devices.
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/myles">myles</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
