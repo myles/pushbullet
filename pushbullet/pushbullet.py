@@ -44,7 +44,7 @@ from . import __version__, __project_name__, __project_link__
 class Pushbullet(object):
 	
 	def __init__(self, api_key,
-		api_uri='https://api.pushbullet.com/api/',
+		api_uri='https://api.pushbullet.com/v2/',
 		verify_ssl=True):
 		
 		self.api_key = api_key
@@ -82,6 +82,18 @@ class Pushbullet(object):
 							data=payload,
 							files=files,
 							auth=(self.api_key, ''),
+							headers=self.headers,
+							verify=self.verify_ssl
+							)
+		
+		return r
+
+	def _post_no_auth(self, url, payload={}, files={}):
+		# TODO Add exceptions for the different HTTP Error codes.
+		
+		r = requests.post(url,
+							data=payload,
+							files=files,
 							headers=self.headers,
 							verify=self.verify_ssl
 							)
@@ -144,7 +156,7 @@ class Pushbullet(object):
 
 		# See http://docs.pushbullet.com/v2/upload-request/
 		# 1. First request the permission to upload
-		mimetype = magic(file, mime=True)
+		mimetype = magic.from_file(file, mime=True)
 		payload_upload = {
 			'file_name': os.path.basename(file),
 			'file_type': mimetype,
@@ -157,13 +169,17 @@ class Pushbullet(object):
 		files = {
 			'file': open(file, 'rb')		
 		}
-		actual_upload = self._post(upload_data['upload_url'], upload_data['data'], files)
-		
+	
+		actual_upload = self._post_no_auth(upload_data['upload_url'], upload_data['data'], files)
+		actual_upload.raise_for_status() # stop if there was a bad request
+
 		# 3. Push the file to the device
 		payload_push = {
+			'type': 'file',
+			'device_iden': device_iden,
 			'file_name': upload_data['file_name'],
 			'file_type': upload_data['file_type'],
-			'file_url': upload_data['file_url']
+			'file_url': upload_data['file_url'],
 		}
 
 		if isinstance(body, str) and len(body) > 0:
