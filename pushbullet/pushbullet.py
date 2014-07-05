@@ -156,9 +156,9 @@ class Pushbullet(object):
 
 		# See http://docs.pushbullet.com/v2/upload-request/
 		# 1. First request the permission to upload
-		mimetype = magic.from_file(file, mime=True)
+		mimetype = magic.from_file(file.name, mime=True)
 		payload_upload = {
-			'file_name': os.path.basename(file),
+			'file_name': os.path.basename(file.name),
 			'file_type': mimetype,
 		}
 
@@ -167,7 +167,7 @@ class Pushbullet(object):
 
 		# 2. Do the actual upload of the file
 		files = {
-			'file': open(file, 'rb')		
+			'file': file # this must be a File object		
 		}
 	
 		actual_upload = self._post_no_auth(upload_data['upload_url'], upload_data['data'], files)
