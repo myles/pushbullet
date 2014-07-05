@@ -166,7 +166,7 @@ class Pushbullet(object):
 			'file_url': upload_data['file_url']
 		}
 
-		if body is not None:
+		if isinstance(body, str) and len(body) > 0:
 			payload_push['body'] = body
 
 		r = self._post(self.api_uri_pushes, payload_push)

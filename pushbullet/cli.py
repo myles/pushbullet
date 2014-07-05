@@ -56,7 +56,7 @@ def main():
 	parser.add_argument('-n', '--name', '--title', action='store', dest='title',
 		help="The title/name of the note, link, address, or list.")
 	parser.add_argument('-b', '--body', '--address', action='store', dest='body',
-		help="The body/address of the note or address.")
+		help="The body, address of the note or additional data for a file.")
 	parser.add_argument('-i', '--items', action='store', dest='items',
 		help="The items in a list.")
 	parser.add_argument('-f', '--file', action='store', dest='file',
@@ -134,4 +134,4 @@ def main():
 			response = pushbullet.bullet_list(args.device, title, items)
 			
 		elif args.type == 'file':
-			response = pushbullet.bullet_file(args.device, args.file)
+			response = pushbullet.bullet_file(args.device, args.file, args.body)
