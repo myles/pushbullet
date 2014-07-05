@@ -76,7 +76,7 @@ class Pushbullet(object):
 		# TODO Add exceptions for the different HTTP Error codes.
 		
 		r = requests.post(url,
-							params=payload,
+							data=payload,
 							files=files,
 							auth=(self.api_key, ''),
 							headers=self.headers,
