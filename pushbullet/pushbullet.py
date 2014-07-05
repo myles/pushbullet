@@ -36,6 +36,8 @@ import json
 from urlparse import urljoin
 
 import requests
+import os
+import magic
 
 from . import __version__, __project_name__, __project_link__
 
@@ -50,6 +52,7 @@ class Pushbullet(object):
 		
 		self.api_uri_devices = urljoin(api_uri, 'devices')
 		self.api_uri_pushes = urljoin(api_uri, 'pushes')
+		self.api_uri_upload_requests = urljoin(api_uri, 'upload-request')
 		
 		self.headers = {
 			'User-Agent': "%s/%s +%s" % (
@@ -136,16 +139,36 @@ class Pushbullet(object):
 		
 		r = self._post(self.api_uri_pushes, payload)
 	
-	def bullet_file(self, device_iden, file):
-		payload = {
-			'type': 'file',
-			'device_iden': device_iden,
+	def bullet_file(self, device_iden, file, body=None):
+		# TODO check if file exists
+
+		# See http://docs.pushbullet.com/v2/upload-request/
+		# 1. First request the permission to upload
+		mimetype = magic(file, mime=True)
+		payload_upload = {
+			'file_name': os.path.basename(file),
+			'file_type': mimetype,
 		}
-		
+
+		upload_request = self._post(self.api_uri_upload_requests, payload_upload)
+		upload_data = upload_request.json()
+
+		# 2. Do the actual upload of the file
 		files = {
-			'file': file,
+			'file': open(file, 'rb')		
 		}
+		actual_upload = self._post(upload_data['upload_url'], upload_data['data'], files)
 		
-		r = self._post(self.api_uri_pushes, payload, files)
-		
+		# 3. Push the file to the device
+		payload_push = {
+			'file_name': upload_data['file_name'],
+			'file_type': upload_data['file_type'],
+			'file_url': upload_data['file_url']
+		}
+
+		if body is not None:
+			payload_push['body'] = body
+
+		r = self._post(self.api_uri_pushes, payload_push)
+
 		return r.json()
