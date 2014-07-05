@@ -25,6 +25,7 @@ setup(
 	],
 	install_requires = [
 		'requests',
+		'python-magic',
 	],
 	extras_require = {
 		'cli': [ 'clint' ]
