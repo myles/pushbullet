@@ -76,8 +76,17 @@ def main():
 		
 		with indent(4):
 			for device in devices:
+				nickname = 'unknown'
+				# Fix if the device has no nickname set (e.g. newly created devices)
+				try:
+					nickname = device['extras']['nickname']
+				except NameError:
+					# Take other properties and construct a fake nickname
+					# (that is the same behaviour as the web ui)
+					nickname = " ".join([device['extra']['manufacturer'], device['extra']['model']])
+
 				puts("%(nickname)s: %(iden)s" % {
-					'nickname': device['extras']['nickname'],
+					'nickname': nickname,
 					'iden': device['iden']
 				})
 		
