@@ -52,7 +52,9 @@ Command Line Usage
       -n TITLE, --name TITLE, --title TITLE
                             The title/name of the note, link, address, or list.
       -b BODY, --body BODY, --address BODY
-                            The body/address of the note or address.
+                            The body, address of the note or additional data for a file.
+      -u URL, --url URL
+                            The referenced url of the link.
       -i ITEMS, --items ITEMS
                             The items in a list.
       -f FILE, --file FILE  The file to push.
