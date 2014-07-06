@@ -57,6 +57,8 @@ def main():
 		help="The title/name of the note, link, address, or list.")
 	parser.add_argument('-b', '--body', '--address', action='store', dest='body',
 		help="The body, address of the note or additional data for a file.")
+	parser.add_argument('-u', '--url', action='store', dest='url',
+		help="The referenced url of the link.")
 	parser.add_argument('-i', '--items', action='store', dest='items',
 		help="The items in a list.")
 	parser.add_argument('-f', '--file', action='store', dest='file',
