@@ -1,0 +1,4 @@
+requests
+python-magic
+
+sphinx-me
