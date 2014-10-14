@@ -11,6 +11,10 @@ A Python library (and super simple command line app) for Pushbullet_.
     :target: https://travis-ci.org/myles/pushbullet
     :alt: Build Status
 
+.. image:: https://coveralls.io/repos/myles/pushbullet/badge.png
+    :target: https://coveralls.io/r/myles/pushbullet
+    :alt: Coverage Status
+
 .. _Pushbullet: https://pushbullet.com/
 
 Library Usage
