@@ -248,13 +248,46 @@ class Pushbullet(object):
 
         url = urljoin(self.api_uri_pushes, push_iden)
 
-        r = r._post(url, payload)
+        r = self._post(url, payload)
 
         return r.json()
 
     def bullet_delete(self, push_iden):
         url = urljoin(self.api_uri_pushes, push_iden)
 
-        r = r._delete(url)
+        r = self._delete(url)
+
+        return r.json()
+
+    def list_contacts(self):
+        r = self._get(self.api_uri_contacts)
+
+        return r.json()
+
+    def create_contact(self, name, email):
+        payload = {
+            'name': name,
+            'email': email,
+        }
+
+        r = self._post(self.api_uri_contacts, payload)
+
+        return r.json()
+
+    def update_contact(self, contact_iden, name):
+        payload = {
+            'name': name
+        }
+
+        url = urljoin(self.api_uri_contacts, contact_iden)
+
+        r = self._post(url, payload)
+
+        return r.json()
+
+    def delete_contact(self, contact_iden):
+        url = urljoin(self.api_uri_contacts, contact_iden)
+
+        r = self._delete(url)
 
         return r.json()
