@@ -53,7 +53,8 @@ class Pushbullet(object):
 		self.api_uri_pushes = urljoin(api_uri, 'pushes')
         self.api_uri_devices = urljoin(api_uri, 'devices')
         self.api_uri_contacts = urljoin(api_uri, 'contacts')
-        self.api_uri_subscribtions = urljoin(api_uri, 'subscriptions')
+        self.api_uri_subscriptions = urljoin(api_uri, 'subscriptions')
+        self.api_uri_channel_info = urljoin(api_uri, 'channel-info')
         self.api_uri_users_me = urljoin(api_uri, 'users', 'me')
 
         self.api_uri_ephemerals = urljoin(api_uri, 'ephemerals')
@@ -289,5 +290,35 @@ class Pushbullet(object):
         url = urljoin(self.api_uri_contacts, contact_iden)
 
         r = self._delete(url)
+
+        return r.json()
+
+    def subscribe(self, channel_tag):
+        payload = {
+            'channel_tag': channel_tag,
+        }
+
+        r = self._post(self.api_uri_subscriptions, payload)
+
+        return r.json()
+
+    def list_subscriptions(self):
+        r = self._get(self.api_uri_subscription)
+
+        return r.json()
+
+    def unsubscribe(self, iden):
+        url = urljoin(self.api_uri_subscription, iden)
+
+        r = self._delete(url)
+
+        return r.json()
+
+    def channel_info(self, tag):
+        payload = {
+            'tag': tag
+        }
+
+        r = self._get(self.api_uri_channel_info, payload)
 
         return r.json()
