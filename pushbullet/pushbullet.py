@@ -239,3 +239,22 @@ class Pushbullet(object):
 		r = self._post(self.api_uri_pushes, payload_push)
 
 		return r.json()
+
+    def bullet_update(self, push_iden, dismissed=False, items=False):
+        payload = {
+            'dismissed': dismissed,
+            'items': items
+        }
+
+        url = urljoin(self.api_uri_pushes, push_iden)
+
+        r = r._post(url, payload)
+
+        return r.json()
+
+    def bullet_delete(self, push_iden):
+        url = urljoin(self.api_uri_pushes, push_iden)
+
+        r = r._delete(url)
+
+        return r.json()
