@@ -35,9 +35,24 @@ POSSIBILITY OF SUCH DAMAGE.
 
 import argparse
 
-from clint.textui import puts, indent
+from clint.textui import puts, indent, prompt
 
 from pushbullet import Pushbullet
+
+
+def list_devices(pushbullet):
+    devices = pushbullet.list_devices()['devices']
+
+    puts("Pushbullet devices:")
+
+    with indent(4):
+        for device in devices:
+            nickname = device.get('nickname', 'unknown')
+
+            puts("%(nickname)s: %(iden)s" % {
+                'nickname': nickname,
+                'iden': device['iden']
+            })
 
 
 def main():
@@ -80,31 +95,7 @@ def main():
     pushbullet = Pushbullet(api_key=args.api_key)
 
     if args.list_devices:
-        devices = pushbullet.list_devices()['devices']
-
-        puts("Pushbullet devices:")
-
-        with indent(4):
-            for device in devices:
-                nickname = 'unknown'
-                # Fix if the device has no nickname set (e.g. newly created
-                # devices)
-                try:
-                    nickname = device['extras']['nickname']
-                except NameError:
-                    # Take other properties and construct a fake nickname
-                    # (that is the same behaviour as the web ui)
-                    nickname = " ".join(
-                        [
-                            device['extra']['manufacturer'],
-                            device['extra']['model']
-                        ]
-                    )
-
-                puts("%(nickname)s: %(iden)s" % {
-                    'nickname': nickname,
-                    'iden': device['iden']
-                })
+        list_devices(pushbullet)
 
     elif args.device:
         if args.type == 'note':
@@ -112,8 +103,8 @@ def main():
                 title = args.title
                 body = args.body
             else:
-                title = raw_input('Title: ')
-                body = raw_input('Body: ')
+                title = prompt.query('Title: ')
+                body = prompt.query('Body (optional): ', validators=[])
 
             response = pushbullet.bullet_note(args.device, title, body)
 
@@ -122,8 +113,8 @@ def main():
                 title = args.title
                 url = args.url
             else:
-                title = raw_input('Title: ')
-                url = raw_input('URL: ')
+                title = prompt.query('Title: ')
+                url = prompt.query('URL: ')
 
             response = pushbullet.bullet_link(args.device, title, url)
 
@@ -132,8 +123,8 @@ def main():
                 name = args.title
                 address = args.body
             else:
-                name = raw_input('Name: ')
-                address = raw_input('Address: ')
+                name = prompt.query('Name: ')
+                address = prompt.query('Address: ')
 
             response = pushbullet.bullet_address(args.device, name, address)
 
@@ -142,8 +133,8 @@ def main():
                 title = args.title
                 _items = args.items
             else:
-                title = raw_input('Title: ')
-                _items = raw_input('Items: ')
+                title = prompt.query('Title: ')
+                _items = prompt.query('Items (separate by comma): ')
 
             items = _items.split(', ')
 
@@ -152,3 +143,6 @@ def main():
         elif args.type == 'file':
             response = pushbullet.bullet_file(
                 args.device, args.file, args.body)
+
+        if response.get('error', None):
+            puts(response['error']['message'])
