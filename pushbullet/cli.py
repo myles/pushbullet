@@ -102,7 +102,7 @@ def push_address(args, pushbullet):
 
 
 def push_file(args, pushbullet):
-    response = pushbullet.bullet_file(
+    return pushbullet.bullet_file(
         args.device, args.file, args.body)
 
 
