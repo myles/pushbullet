@@ -41,6 +41,7 @@ import magic
 
 from . import __version__, __project_name__, __project_link__
 
+
 class Pushbullet(object):
 
 	def __init__(self, api_key,
@@ -59,7 +60,7 @@ class Pushbullet(object):
 
         self.api_uri_ephemerals = urljoin(api_uri, 'ephemerals')
 
-		self.api_uri_upload_requests = urljoin(api_uri, 'upload-request')
+        self.api_uri_upload_requests = urljoin(api_uri, 'upload-request')
 
 		self.headers = {
 			'User-Agent': "%s/%s +%s" % (
