@@ -32,7 +32,6 @@ WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 """
 
-import json
 from urlparse import urljoin
 
 import requests
@@ -129,7 +128,7 @@ class Pushbullet(object):
     def create_device(self, nickname, device_type='stream'):
         """Create a device that can be pushed to."""
         payload = {
-            'device_type': type,
+            'device_type': device_type,
             'nickname': nickname
         }
 
@@ -204,14 +203,16 @@ class Pushbullet(object):
 
         r = self._post(self.api_uri_pushes, payload)
 
-    def bullet_file(self, device_iden, file, body=None):
+        return r.json()
+
+    def bullet_file(self, device_iden, upload, body=None):
         # TODO check if file exists
 
         # See http://docs.pushbullet.com/v2/upload-request/
         # 1. First request the permission to upload
-        mimetype = magic.from_file(file.name, mime=True)
+        mimetype = magic.from_file(upload.name, mime=True)
         payload_upload = {
-            'file_name': os.path.basename(file.name),
+            'file_name': os.path.basename(upload.name),
             'file_type': mimetype,
         }
 
@@ -221,7 +222,7 @@ class Pushbullet(object):
 
         # 2. Do the actual upload of the file
         files = {
-            'file': file  # this must be a File object
+            'file': upload  # this must be a File object
         }
 
         actual_upload = self._post_no_auth(upload_data['upload_url'],
