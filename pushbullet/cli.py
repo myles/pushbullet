@@ -55,6 +55,57 @@ def list_devices(pushbullet):
             })
 
 
+def push_note(args, pushbullet):
+    if args.title or args.url:
+        title = args.title
+        body = args.body
+    else:
+        title = prompt.query('Title: ')
+        body = prompt.query('Body (optional): ', validators=[])
+
+    return pushbullet.bullet_note(args.device, title, body)
+
+
+def push_link(args, pushbullet):
+    if args.title or args.url:
+        title = args.title
+        url = args.url
+    else:
+        title = prompt.query('Title: ')
+        url = prompt.query('URL: ')
+
+    return pushbullet.bullet_link(args.device, title, url)
+
+
+def push_list(args, pushbullet):
+    if args.title or args.items:
+        title = args.title
+        _items = args.items
+    else:
+        title = prompt.query('Title: ')
+        _items = prompt.query('Items (separate by comma): ')
+
+    items = _items.split(', ')
+
+    return pushbullet.bullet_list(args.device, title, items)
+
+
+def push_address(args, pushbullet):
+    if args.title and args.body:
+        name = args.title
+        address = args.body
+    else:
+        name = prompt.query('Name: ')
+        address = prompt.query('Address: ')
+
+    return pushbullet.bullet_address(args.device, name, address)
+
+
+def push_file(args, pushbullet):
+    response = pushbullet.bullet_file(
+        args.device, args.file, args.body)
+
+
 def main():
 
     parser = argparse.ArgumentParser()
@@ -99,50 +150,19 @@ def main():
 
     elif args.device:
         if args.type == 'note':
-            if args.title or args.body:
-                title = args.title
-                body = args.body
-            else:
-                title = prompt.query('Title: ')
-                body = prompt.query('Body (optional): ', validators=[])
-
-            response = pushbullet.bullet_note(args.device, title, body)
+            response = push_note(args, pushbullet)
 
         elif args.type == 'link':
-            if args.title or args.url:
-                title = args.title
-                url = args.url
-            else:
-                title = prompt.query('Title: ')
-                url = prompt.query('URL: ')
-
-            response = pushbullet.bullet_link(args.device, title, url)
+            response = push_link(args, pushbullet)
 
         elif args.type == 'address':
-            if args.title and args.body:
-                name = args.title
-                address = args.body
-            else:
-                name = prompt.query('Name: ')
-                address = prompt.query('Address: ')
-
-            response = pushbullet.bullet_address(args.device, name, address)
+            response = push_address(args, pushbullet)
 
         elif args.type == 'list':
-            if args.title or args.items:
-                title = args.title
-                _items = args.items
-            else:
-                title = prompt.query('Title: ')
-                _items = prompt.query('Items (separate by comma): ')
-
-            items = _items.split(', ')
-
-            response = pushbullet.bullet_list(args.device, title, items)
+            response = push_list(args, pushbullet)
 
         elif args.type == 'file':
-            response = pushbullet.bullet_file(
-                args.device, args.file, args.body)
+            response = push_file(args, pushbullet)
 
         if response.get('error', None):
             puts(response['error']['message'])
