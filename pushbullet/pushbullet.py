@@ -83,7 +83,7 @@ class Pushbullet(object):
 
         return r
 
-    def _post(self, url, payload={}, files={}):
+    def _post(self, url, payload=None, files=None):
         # TODO Add exceptions for the different HTTP Error codes.
 
         r = requests.post(url,
@@ -96,7 +96,7 @@ class Pushbullet(object):
 
         return r
 
-    def _delete(self, url, payload={}):
+    def _delete(self, url, payload=None):
         # TODO Add exceptions for the different HTTP Error codes.
 
         r = requests.delete(url,
@@ -108,7 +108,7 @@ class Pushbullet(object):
 
         return r
 
-    def _post_no_auth(self, url, payload={}, files={}):
+    def _post_no_auth(self, url, payload=None, files=None):
         # TODO Add exceptions for the different HTTP Error codes.
 
         r = requests.post(url,
