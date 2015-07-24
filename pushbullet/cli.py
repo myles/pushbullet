@@ -45,19 +45,26 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('-a', '--apikey', required=True, action='store',
-                        dest='api_key', help="What is your Pushbullet API key?")
+                        dest='api_key',
+                        help="What is your Pushbullet API key?")
 
     parser.add_argument('-d', '--device', action='store', dest='device',
                         help="What device do you want to send the bullet to?")
 
-    parser.add_argument('-t', '--type', action='store', dest='type', default="note",
+    parser.add_argument('-t', '--type', action='store', dest='type',
+                        default="note",
                         choices=['note', 'link', 'address', 'list', 'file'],
                         help="What type of bullet do you want to send?")
 
-    parser.add_argument('-n', '--name', '--title', action='store', dest='title',
-                        help="The title/name of the note, link, address, or list.")
-    parser.add_argument('-b', '--body', '--address', action='store', dest='body',
-                        help="The body, address of the note or additional data for a file.")
+    parser.add_argument('-n', '--name', '--title', action='store',
+                        dest='title',
+                        help="The title/name of the note, link, address, " +
+                             " or list.")
+
+    parser.add_argument('-b', '--body', '--address', action='store',
+                        dest='body',
+                        help="The body, address of the note or additional " +
+                             "data for a file.")
     parser.add_argument('-u', '--url', action='store', dest='url',
                         help="The referenced url of the link.")
     parser.add_argument('-i', '--items', action='store', dest='items',
@@ -88,7 +95,11 @@ def main():
                     # Take other properties and construct a fake nickname
                     # (that is the same behaviour as the web ui)
                     nickname = " ".join(
-                        [device['extra']['manufacturer'], device['extra']['model']])
+                        [
+                            device['extra']['manufacturer'],
+                            device['extra']['model']
+                        ]
+                    )
 
                 puts("%(nickname)s: %(iden)s" % {
                     'nickname': nickname,

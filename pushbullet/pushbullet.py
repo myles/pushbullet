@@ -44,14 +44,14 @@ from . import __version__, __project_name__, __project_link__
 
 class Pushbullet(object):
 
-	def __init__(self, api_key,
-		api_uri='https://api.pushbullet.com/v2/',
-		verify_ssl=True):
+    def __init__(self, api_key,
+                 api_uri='https://api.pushbullet.com/v2/',
+                 verify_ssl=True):
 
-		self.api_key = api_key
-		self.api_uri = api_uri
+        self.api_key = api_key
+        self.api_uri = api_uri
 
-		self.api_uri_pushes = urljoin(api_uri, 'pushes')
+        self.api_uri_pushes = urljoin(api_uri, 'pushes')
         self.api_uri_devices = urljoin(api_uri, 'devices')
         self.api_uri_contacts = urljoin(api_uri, 'contacts')
         self.api_uri_subscriptions = urljoin(api_uri, 'subscriptions')
@@ -62,69 +62,69 @@ class Pushbullet(object):
 
         self.api_uri_upload_requests = urljoin(api_uri, 'upload-request')
 
-		self.headers = {
-			'User-Agent': "%s/%s +%s" % (
-				__project_name__,
-				__version__,
-				__project_link__
-			)
-		}
+        self.headers = {
+            'User-Agent': "%s/%s +%s" % (
+                __project_name__,
+                __version__,
+                __project_link__
+            )
+        }
 
-		self.verify_ssl = verify_ssl
+        self.verify_ssl = verify_ssl
 
-	def _get(self, url):
-		# TODO Add exceptions for the different HTTP Error codes.
+    def _get(self, url):
+        # TODO Add exceptions for the different HTTP Error codes.
 
-		r = requests.get(url,
-							auth=(self.api_key, ''),
-							headers=self.headers,
-							verify=self.verify_ssl
-							)
+        r = requests.get(url,
+                         auth=(self.api_key, ''),
+                         headers=self.headers,
+                         verify=self.verify_ssl
+                         )
 
-		return r
+        return r
 
-	def _post(self, url, payload={}, files={}):
-		# TODO Add exceptions for the different HTTP Error codes.
+    def _post(self, url, payload={}, files={}):
+        # TODO Add exceptions for the different HTTP Error codes.
 
-		r = requests.post(url,
-							data=payload,
-							files=files,
-							auth=(self.api_key, ''),
-							headers=self.headers,
-							verify=self.verify_ssl
-							)
+        r = requests.post(url,
+                          data=payload,
+                          files=files,
+                          auth=(self.api_key, ''),
+                          headers=self.headers,
+                          verify=self.verify_ssl
+                          )
 
-		return r
+        return r
 
     def _delete(self, url, payload={}):
         # TODO Add exceptions for the different HTTP Error codes.
 
         r = requests.delete(url,
-                                data=payload,
-                                auth=(self.api_key, '')
-                                headers=self.headers,
-                                verify=self.verify_ssl
-                                )
+                            data=payload,
+                            auth=(self.api_key, ''),
+                            headers=self.headers,
+                            verify=self.verify_ssl
+                            )
 
         return r
 
-	def _post_no_auth(self, url, payload={}, files={}):
-		# TODO Add exceptions for the different HTTP Error codes.
+    def _post_no_auth(self, url, payload={}, files={}):
+        # TODO Add exceptions for the different HTTP Error codes.
 
-		r = requests.post(url,
-							data=payload,
-							files=files,
-							headers=self.headers,
-							verify=self.verify_ssl
-							)
+        r = requests.post(url,
+                          data=payload,
+                          files=files,
+                          headers=self.headers,
+                          verify=self.verify_ssl
+                          )
 
-		return r
+        return r
 
-	def list_devices(self):
+    def list_devices(self):
         """List devices that can be pushed to."""
-		r = self._get(self.api_uri_devices)
+        r = self._get(self.api_uri_devices)
 
-		return r.json()
+        return r.json()
 
     def create_device(self, nickname, device_type='stream'):
         """Create a device that can be pushed to."""
@@ -157,90 +157,92 @@ class Pushbullet(object):
 
         return r.json()
 
-	def bullet_note(self, device_iden, title, body=''):
-		payload = {
-			'type': 'note',
-			'device_iden': device_iden,
-			'title': title,
-			'body': body,
-		}
-
-		r = self._post(self.api_uri_pushes, payload)
-
-		return r.json()
-
-	def bullet_link(self, device_iden, title, link, body=''):
-		payload = {
-			'type': 'link',
-			'device_iden': device_iden,
-			'title': title,
-			'url': link,
+    def bullet_note(self, device_iden, title, body=''):
+        payload = {
+            'type': 'note',
+            'device_iden': device_iden,
+            'title': title,
             'body': body,
-		}
+        }
 
-		r = self._post(self.api_uri_pushes, payload)
+        r = self._post(self.api_uri_pushes, payload)
 
-		return r.json()
+        return r.json()
 
-	def bullet_address(self, device_iden, name, address):
-		payload = {
-			'type': 'address',
-			'device_iden': device_iden,
-			'name': name,
-			'address': address,
-		}
+    def bullet_link(self, device_iden, title, link, body=''):
+        payload = {
+            'type': 'link',
+            'device_iden': device_iden,
+            'title': title,
+            'url': link,
+            'body': body,
+        }
 
-		r = self._post(self.api_uri_pushes, payload)
+        r = self._post(self.api_uri_pushes, payload)
 
-		return r.json()
+        return r.json()
 
-	def bullet_list(self, device_iden, title, items):
-		payload = {
-			'type': 'list',
-			'device_iden': device_iden,
-			'title': title,
-			'items': items,
-		}
+    def bullet_address(self, device_iden, name, address):
+        payload = {
+            'type': 'address',
+            'device_iden': device_iden,
+            'name': name,
+            'address': address,
+        }
 
-		r = self._post(self.api_uri_pushes, payload)
+        r = self._post(self.api_uri_pushes, payload)
 
-	def bullet_file(self, device_iden, file, body=None):
-		# TODO check if file exists
+        return r.json()
 
-		# See http://docs.pushbullet.com/v2/upload-request/
-		# 1. First request the permission to upload
-		mimetype = magic.from_file(file.name, mime=True)
-		payload_upload = {
-			'file_name': os.path.basename(file.name),
-			'file_type': mimetype,
-		}
+    def bullet_list(self, device_iden, title, items):
+        payload = {
+            'type': 'list',
+            'device_iden': device_iden,
+            'title': title,
+            'items': items,
+        }
 
-		upload_request = self._post(self.api_uri_upload_requests, payload_upload)
-		upload_data = upload_request.json()
+        r = self._post(self.api_uri_pushes, payload)
 
-		# 2. Do the actual upload of the file
-		files = {
-			'file': file # this must be a File object
-		}
+    def bullet_file(self, device_iden, file, body=None):
+        # TODO check if file exists
 
-		actual_upload = self._post_no_auth(upload_data['upload_url'], upload_data['data'], files)
-		actual_upload.raise_for_status() # stop if there was a bad request
+        # See http://docs.pushbullet.com/v2/upload-request/
+        # 1. First request the permission to upload
+        mimetype = magic.from_file(file.name, mime=True)
+        payload_upload = {
+            'file_name': os.path.basename(file.name),
+            'file_type': mimetype,
+        }
 
-		# 3. Push the file to the device
-		payload_push = {
-			'type': 'file',
-			'device_iden': device_iden,
-			'file_name': upload_data['file_name'],
-			'file_type': upload_data['file_type'],
-			'file_url': upload_data['file_url'],
-		}
+        upload_request = self._post(self.api_uri_upload_requests,
+                                    payload_upload)
+        upload_data = upload_request.json()
 
-		if isinstance(body, str) and len(body) > 0:
-			payload_push['body'] = body
+        # 2. Do the actual upload of the file
+        files = {
+            'file': file  # this must be a File object
+        }
 
-		r = self._post(self.api_uri_pushes, payload_push)
+        actual_upload = self._post_no_auth(upload_data['upload_url'],
+                                           upload_data['data'], files)
+        actual_upload.raise_for_status()  # stop if there was a bad request
 
-		return r.json()
+        # 3. Push the file to the device
+        payload_push = {
+            'type': 'file',
+            'device_iden': device_iden,
+            'file_name': upload_data['file_name'],
+            'file_type': upload_data['file_type'],
+            'file_url': upload_data['file_url'],
+        }
+
+        if isinstance(body, str) and len(body) > 0:
+            payload_push['body'] = body
+
+        r = self._post(self.api_uri_pushes, payload_push)
+
+        return r.json()
 
     def bullet_update(self, push_iden, dismissed=False, items=False):
         payload = {
