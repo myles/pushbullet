@@ -148,7 +148,7 @@ class Pushbullet(object):
 
         return r.json()
 
-    def delete_device(device, device_iden):
+    def delete_device(self, device, device_iden):
         """Delete a device."""
         url = urljoin(self.api_uri_devices, device_iden)
 
